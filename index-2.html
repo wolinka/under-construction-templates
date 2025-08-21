@@ -112,6 +112,7 @@
         .countdown-timer {
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: clamp(0.5rem, 2vw, 1rem);
             flex-wrap: wrap;
         }
@@ -147,6 +148,9 @@
             color: var(--primary-navy);
             opacity: 0.6;
             animation: separatorBlink 1s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            line-height: 1;
         }
 
         @keyframes countdownPulse {
