@@ -2,6 +2,12 @@
 
 A collection of modern, interactive "Under Construction" page templates with particle animations, countdown timers, and social media integration. Built with vanilla JavaScript and CSS3, these templates provide elegant solutions for websites in development.
 
+## 🔴 Live Preview
+
+- 🧊 **Basic:** https://wolinka.github.io/under-construction-templates/
+- ⏱️ **Countdown:** https://wolinka.github.io/under-construction-templates/index-2.html
+- 🌐 **Social + Countdown:** https://wolinka.github.io/under-construction-templates/index-3.html
+
 ## 🚀 Features
 
 - **🎨 Modern Glassmorphism Design** - Beautiful semi-transparent elements with backdrop blur effects
@@ -143,12 +149,6 @@ let dirY = (Math.random() * 0.4) - 0.2;
 - **Efficient Animations** - RequestAnimationFrame for smooth 60fps
 - **Lightweight** - No external JavaScript libraries
 - **Fast Loading** - Minimal HTTP requests
-
-## 🔴 Live Preview
-
-- 🧊 **Basic:** https://wolinka.github.io/under-construction-templates/
-- ⏱️ **Countdown:** https://wolinka.github.io/under-construction-templates/index-2.html
-- 🌐 **Social + Countdown:** https://wolinka.github.io/under-construction-templates/index-3.html
 
 ## 📄 License
 
