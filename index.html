@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Construction!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-navy: #2C3E50;
+            --gradient-bg: linear-gradient(135deg, #E3F2FD 0%, #F8F9FA 50%, #F0F8FF 100%);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gradient-bg);
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            max-width: 90%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hero-section { text-align: center; margin-bottom: 1.5rem; }
+        .progress-section { width: 100%; max-width: 400px; margin: 1.5rem 0; }
+        .footer { margin-top: 1.5rem; text-align: center; font-size: 0.8rem; }
+
+        .main-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 700;
+            color: var(--primary-navy);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            letter-spacing: 1px;
+        }
+        .subtitle {
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            color: var(--primary-navy);
+            opacity: 0.7;
+            line-height: 1.5;
+            max-width: 450px;
+            text-align: center;
+            margin: 0 auto;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--primary-navy);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(44, 62, 80, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-navy);
+            width: 75%;
+            border-radius: 4px;
+        }
+        .footer a {
+            color: var(--primary-navy);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .footer a:hover {
+            color: #1A252F;
+            transform: translateY(-1px);
+        }
+        .footer a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: var(--primary-navy);
+            transition: width 0.3s ease;
+        }
+        .footer a:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <main class="container">
+        <header class="hero-section">
+            <h1 class="main-title">Under Construction</h1>
+            <p class="subtitle">An amazing website is coming to this address. Check back soon.</p>
+        </header>
+        <section class="progress-section">
+            <div class="progress-label">
+                <span>Progress Status</span>
+                <span>75%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </section>
+        <footer class="footer">
+            <p>&copy; 2025 <a href="https://wolinka.com.tr/" target="_blank">Wolinka</a></p>
+        </footer>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let particlesArray;
+            let mouse = {
+                x: null,
+                y: null,
+                radius: 150
+            };
+
+            function setCanvasSize() {
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = window.innerWidth * dpr;
+                canvas.height = window.innerHeight * dpr;
+                canvas.style.width = `${window.innerWidth}px`;
+                canvas.style.height = `${window.innerHeight}px`;
+                ctx.scale(dpr, dpr);
+            }
+            setCanvasSize();
+
+            window.addEventListener('resize', () => {
+                setCanvasSize();
+                init();
+            });
+
+            // Mouse event listeners
+            window.addEventListener('mousemove', function(event) {
+                mouse.x = event.x;
+                mouse.y = event.y;
+            });
+
+            window.addEventListener('mouseout', function() {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            class Particle {
+                constructor(x, y, dirX, dirY, size, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.directionX = dirX;
+                    this.directionY = dirY;
+                    this.size = size;
+                    this.color = color;
+                    this.opacity = Math.random() * 0.5 + 0.5;
+                    this.pulse = Math.random() * 0.02 + 0.01;
+                }
+                draw() {
+                    // Pulsing effect
+                    this.opacity += this.pulse;
+                    if (this.opacity <= 0.3 || this.opacity >= 1) {
+                        this.pulse = -this.pulse;
+                    }
+                    
+                    // Main particle
+                    ctx.save();
+                    ctx.globalAlpha = this.opacity;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                    ctx.restore();
+                }
+                update() {
+                    // Boundary check and direction change
+                    if (this.x > window.innerWidth || this.x < 0) this.directionX = -this.directionX;
+                    if (this.y > window.innerHeight || this.y < 0) this.directionY = -this.directionY;
+                    
+                    // Normal movement animation
+                    this.x += this.directionX;
+                    this.y += this.directionY;
+                    
+                    // Mouse effect
+                    if (mouse.x != null && mouse.y != null) {
+                        let dx = mouse.x - this.x;
+                        let dy = mouse.y - this.y;
+                        let distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < mouse.radius) {
+                            let forceDirectionX = dx / distance;
+                            let forceDirectionY = dy / distance;
+                            let force = (mouse.radius - distance) / mouse.radius;
+                            let pushX = forceDirectionX * force * this.size * 2;
+                            let pushY = forceDirectionY * force * this.size * 2;
+                            
+                            this.x -= pushX;
+                            this.y -= pushY;
+                        }
+                    }
+                    
+                    this.draw();
+                }
+            }
+
+            function init() {
+                particlesArray = [];
+                let numberOfParticles = (window.innerHeight * window.innerWidth) / 18000;
+                let particleColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-navy').trim();
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let size = (Math.random() * 3) + 0.5;
+                    let x = Math.random() * window.innerWidth;
+                    let y = Math.random() * window.innerHeight;
+                    let dirX = (Math.random() * 0.4) - 0.2;
+                    let dirY = (Math.random() * 0.4) - 0.2;
+                    particlesArray.push(new Particle(x, y, dirX, dirY, size, particleColor));
+                }
+            }
+
+            function connect() {
+                for (let a = 0; a < particlesArray.length; a++) {
+                    for (let b = a; b < particlesArray.length; b++) {
+                        let distance = ((particlesArray[a].x - particlesArray[b].x) ** 2) + ((particlesArray[a].y - particlesArray[b].y) ** 2);
+                        if (distance < (window.innerWidth / 7) * (window.innerHeight / 7)) {
+                            let opacityValue = 1 - (distance / 25000);
+                            let lineWidth = Math.max(0.5, opacityValue * 2);
+                            
+                            // Gradient line effect
+                            let gradient = ctx.createLinearGradient(
+                                particlesArray[a].x, particlesArray[a].y,
+                                particlesArray[b].x, particlesArray[b].y
+                            );
+                            gradient.addColorStop(0, `rgba(44, 62, 80, ${opacityValue * 0.6})`);
+                            gradient.addColorStop(0.5, `rgba(44, 62, 80, ${opacityValue * 0.8})`);
+                            gradient.addColorStop(1, `rgba(44, 62, 80, ${opacityValue * 0.6})`);
+                            
+                            ctx.strokeStyle = gradient;
+                            ctx.lineWidth = lineWidth;
+                            ctx.beginPath();
+                            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                }
+                connect();
+            }
+
+            init();
+            animate();
+        });
+    </script>
+</body>
+</html>
