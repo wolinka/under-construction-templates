@@ -156,7 +156,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 📧 **Email**: selam@wolinka.com.tr
+- 📧 **Email**: hi@wolinka.com
 
 ## 🎯 Use Cases
 
@@ -165,13 +165,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Business Launches** - Professional coming soon page
 - **Event Websites** - Countdown to event date
 - **Portfolio Sites** - Temporary placeholder during development
-
-## ⭐ Acknowledgments
-
-- Design inspiration from modern web design trends
-- Particle system concept from interactive web animations
-- Glassmorphism design methodology
-- Community feedback and contributions
 
 ---
 
